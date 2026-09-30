@@ -352,6 +352,10 @@ class DeviceController(threading.Thread):
                         break
 
                 except (socket.error, OSError, ConnectionResetError) as e:
+                    if not self._is_run:
+                        # Socket was closed intentionally via close(); this
+                        # is normal cleanup, not a device connection error.
+                        break
                     _LOGGER.debug("[%s] Connection error: %s", self._device_id, e)
                     self._close_socket()
                     self.set_available(False)

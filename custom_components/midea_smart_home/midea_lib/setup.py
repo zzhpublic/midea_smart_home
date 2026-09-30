@@ -60,9 +60,26 @@ async def validate_device(
                 protocol=protocol,
             )
 
+            import time
+            got_status = False
+
+            def status_callback(status, poll_location=None):
+                nonlocal got_status
+                # Ignore availability-only updates (e.g. {"available":
+                # false} after a connection error) and metadata-only
+                # payloads (e.g. {"version": 0}); require real status
+                # data parsed from the device reply
+                if status and set(status) - {"available", "version"}:
+                    got_status = True
+
+            # Register the callback before opening the controller so that
+            # any status the device sends immediately after connecting
+            # cannot be missed, which would otherwise leave got_status
+            # stuck at False even though the device replied successfully.
+            controller.register_update(status_callback)
+
             try:
                 controller.open()
-                import time
                 start = time.time()
                 while not controller.available and (time.time() - start < 10):
                     time.sleep(0.5)
@@ -75,19 +92,6 @@ async def validate_device(
 
                 # Wait for status
                 start = time.time()
-                got_status = False
-
-                def status_callback(status, poll_location=None):
-                    nonlocal got_status
-                    # Ignore availability-only updates (e.g. {"available":
-                    # false} after a connection error) and metadata-only
-                    # payloads (e.g. {"version": 0}); require real status
-                    # data parsed from the device reply
-                    if status and set(status) - {"available", "version"}:
-                        got_status = True
-
-                controller.register_update(status_callback)
-
                 while not got_status and (time.time() - start < 5):
                     time.sleep(0.5)
 
@@ -97,6 +101,8 @@ async def validate_device(
                 return True, None
             finally:
                 controller.close()
+                if controller.is_alive():
+                    controller.join(timeout=2.0)
 
         return await hass.async_add_executor_job(_test_connection)
 
