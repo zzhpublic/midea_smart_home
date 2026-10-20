@@ -77,10 +77,6 @@ async def validate_device(
                 if status and set(status) - {"available", "version"}:
                     got_status = True
 
-            # Register the callback before opening the controller so that
-            # any status the device sends immediately after connecting
-            # cannot be missed, which would otherwise leave got_status
-            # stuck at False even though the device replied successfully.
             controller.register_update(status_callback)
 
             try:
