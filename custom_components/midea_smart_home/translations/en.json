@@ -7,12 +7,40 @@
       "no_devices": "No devices selected"
     },
     "error": {
+      "account_locked": "Too many failed login attempts. The account is temporarily locked (about 5 minutes)",
       "all_devices_added": "All discovered devices have already been added",
+      "cannot_connect": "Cannot connect to device. Check the IP address and port",
+      "cloud_error": "Cloud error, check the logs or try again later",
+      "cloud_session_expired": "Login session expired, please try again",
       "connection_failed": "Failed to connect to device",
+      "invalid_auth": "Invalid account or password",
+      "invalid_cloud_server": "Invalid cloud app key",
+      "invalid_device_id": "Invalid device ID. Enter digits only",
+      "invalid_device_type": "Invalid device type. Enter a hex value (e.g. 0xac)",
+      "invalid_ip": "Invalid IP address",
+      "invalid_protocol": "Invalid protocol version",
       "lua_error": "Device validation failed",
-      "no_devices_found": "No devices found on local network"
+      "missing_lua_file": "Lua file path is required",
+      "missing_token_key": "Token and Key are required for V3 protocol",
+      "no_devices_found": "No devices found on local network",
+      "too_many_logged_in_devices": "Too many devices logged in. Sign out from other devices first",
+      "unknown": "Unknown error, check the logs"
     },
     "step": {
+      "auto_add_device": {
+        "data": {
+          "account": "Account",
+          "password": "Password",
+          "scan_address": "Scan Address",
+          "scan_mode": "Scan Mode"
+        },
+        "data_description": {
+          "scan_address": "Enter router address (e.g., 192.168.1.1) to scan entire subnet, device IP to scan specific device, or 'auto' for automatic detection",
+          "scan_mode": "Note: In broadcast mode, if the device list is repeatedly incomplete, try unicast mode (scanning may take longer in this mode; please wait patiently)."
+        },
+        "description": "Enter your Midea Meiju account credentials to download necessary resource files",
+        "title": "Auto Add Devices (Account Login)"
+      },
       "discover": {
         "description": "Searching for Midea devices on your local network...",
         "title": "Discovering Devices"
@@ -31,8 +59,73 @@
         "description": "Device Name: {device_name}\nDevice Model: {device_model}\nDevice ID: {device_id}\nIP Address: {ip_address}\nSN8: {sn8}\nProtocol Version: {protocol_version}\n{error}{unsupported_protocol}",
         "title": "Device Authentication {progress}"
       },
+      "manual_add_device": {
+        "data": {
+          "scan_address": "Scan Address",
+          "scan_mode": "Scan Mode"
+        },
+        "data_description": {
+          "scan_address": "Enter router address to scan entire subnet, device IP to scan specific device, or 'auto' for automatic detection",
+          "scan_mode": "Note: In broadcast mode, if the device list is repeatedly incomplete, try unicast mode (scanning may take longer in this mode; please wait patiently)."
+        },
+        "description": "Step 1: scan your local network for device info (no account login, no cloud). Discovered device ID, IP, type and protocol will be prefilled in the next form.",
+        "title": "Manual Add Device - Scan"
+      },
+      "manual_device": {
+        "data": {
+          "device_id": "Device ID",
+          "ip": "IP Address",
+          "port": "Port",
+          "device_type": "Device Type",
+          "protocol": "Protocol Version",
+          "device_name": "Device Name",
+          "sn": "SN",
+          "sn8": "SN8",
+          "token": "Token",
+          "key": "Key",
+          "lua_file": "Lua File Path"
+        },
+        "data_description": {
+          "device_id": "Device ID (digits only, prefilled)",
+          "ip": "Device LAN IP address (prefilled)",
+          "port": "Default 6444",
+          "device_type": "Hex device type (e.g. 0xac, prefilled)",
+          "protocol": "Protocol version (prefilled). V3 devices require Token and Key",
+          "device_name": "Custom device name (optional)",
+          "sn": "Serial number (optional, prefilled)",
+          "sn8": "Last 8 chars of SN (optional, prefilled)",
+          "token": "Required for V3, leave empty for V1/V2",
+          "key": "Required for V3, leave empty for V1/V2",
+          "lua_file": "Full path to the device protocol file (.lua)"
+        },
+        "description": "Known parameters discovered on the LAN have been prefilled. Verify them and enter the Token/Key and Lua file path.",
+        "title": "Device Info {progress}"
+      },
+      "manual_device_added": {
+        "description": "✅ Device added! {device_count} device(s) in total.\n\nContinue adding more devices manually, or finish.",
+        "menu_options": {
+          "manual_add_device": "➕ Add another device (rescan)",
+          "manual_finish": "✅ Finish"
+        },
+        "title": "Manual Add Device"
+      },
+      "manual_scan": {
+        "description": "Found {device_count} device(s) (already added devices are filtered out).\n\nAdd from the scan results, or enter everything by hand.",
+        "menu_options": {
+          "manual_direct_entry": "✍️ Direct entry (device not discoverable)",
+          "manual_select_device": "✅ Select a discovered device"
+        },
+        "title": "Manual Add Device"
+      },
+      "manual_select_device": {
+        "data": {
+          "devices": "Devices"
+        },
+        "description": "Select the device(s) to add manually. Their device ID, IP, type and protocol will be prefilled in the next form.",
+        "title": "Select Devices"
+      },
       "select_device": {
-        "description": "Found {device_count} addable devices (including new types). Select an action:",
+        "description": "Select an action:",
         "menu_options": {
           "select_device_continue": "✅ Continue with selected devices",
           "select_device_rescan": "🔄 Rescan for devices"
@@ -47,17 +140,11 @@
         "title": "Select Devices"
       },
       "user": {
-        "data": {
-          "account": "Account",
-          "password": "Password",
-          "scan_address": "Scan Address",
-          "scan_mode": "Scan Mode"
+        "description": "Choose how to add devices:",
+        "menu_options": {
+          "auto_add_device": "🔎 Auto Add Devices (account login, LAN scan)",
+          "manual_add_device": "✍️ Manual Add Device (no account, enter Token/Key and Lua file manually)"
         },
-        "data_description": {
-          "scan_address": "Enter router address (e.g., 192.168.1.1) to scan entire subnet, device IP to scan specific device, or 'auto' for automatic detection",
-          "scan_mode": "Note: In broadcast mode, if the device list is repeatedly incomplete, try unicast mode (scanning may take longer in this mode; please wait patiently)."
-        },
-        "description": "Enter your Midea Meiju account credentials to download necessary resource files",
         "title": "Midea Smart Home Setup"
       }
     }
@@ -347,7 +434,10 @@
         "state_attributes": {
           "fan_mode": {
             "state": {
+              "silent": "Silent",
               "soft_wind": "Soft Wind",
+              "standard": "Standard",
+              "storm": "Storm",
               "strong": "Strong"
             }
           },
@@ -402,6 +492,121 @@
       },
       "storage_zone": {
         "name": "Thermostat (Refrigerator)"
+      },
+      "thermostat_1": {
+        "name": "Thermostat (Zone 1)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "high": "High",
+              "low": "Low",
+              "medium": "Medium"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "Cool",
+              "fan_only": "Fan Only",
+              "ground": "Ground",
+              "heat": "Heat",
+              "heat_ground": "Heat+Ground",
+              "none": "None"
+            }
+          }
+        }
+      },
+      "thermostat_2": {
+        "name": "Thermostat (Zone 2)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "high": "High",
+              "low": "Low",
+              "medium": "Medium"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "Cool",
+              "fan_only": "Fan Only",
+              "ground": "Ground",
+              "heat": "Heat",
+              "heat_ground": "Heat+Ground",
+              "none": "None"
+            }
+          }
+        }
+      },
+      "thermostat_3": {
+        "name": "Thermostat (Zone 3)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "high": "High",
+              "low": "Low",
+              "medium": "Medium"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "Cool",
+              "fan_only": "Fan Only",
+              "ground": "Ground",
+              "heat": "Heat",
+              "heat_ground": "Heat+Ground",
+              "none": "None"
+            }
+          }
+        }
+      },
+      "thermostat_4": {
+        "name": "Thermostat (Zone 4)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "high": "High",
+              "low": "Low",
+              "medium": "Medium"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "Cool",
+              "fan_only": "Fan Only",
+              "ground": "Ground",
+              "heat": "Heat",
+              "heat_ground": "Heat+Ground",
+              "none": "None"
+            }
+          }
+        }
+      },
+      "thermostat_5": {
+        "name": "Thermostat (Zone 5)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "high": "High",
+              "low": "Low",
+              "medium": "Medium"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "Cool",
+              "fan_only": "Fan Only",
+              "ground": "Ground",
+              "heat": "Heat",
+              "heat_ground": "Heat+Ground",
+              "none": "None"
+            }
+          }
+        }
       }
     },
     "cover": {
@@ -410,6 +615,20 @@
       }
     },
     "fan": {
+      "air_purifier": {
+        "name": "Air Purifier",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "air_dry": "Air Dry",
+              "auto": "Auto",
+              "fast": "Fast",
+              "manual": "Manual",
+              "sleep": "Sleep"
+            }
+          }
+        }
+      },
       "exhaust_fan": {
         "name": "Exhaust Fan"
       },
@@ -901,25 +1120,78 @@
       "db_program_b": {
         "name": "Wash Program",
         "state": {
+          "air_wash": "Air Wash",
           "baby_clothes": "Baby Clothes",
+          "baby_clothes_min": "Baby Clothes Min",
           "big": "Big",
+          "cold_wash": "Cold Wash",
+          "color": "Color",
+          "cook_wash": "Cook Wash",
           "cotton": "Cotton",
+          "dehydration_min": "Dehydration Min",
           "down_jacket": "Down Jacket",
           "eco": "Eco",
           "enzyme": "Enzyme",
           "fast_wash": "Quick Wash",
           "fast_wash_30": "Quick Wash 30",
+          "fast_wash_min": "Quick Wash Min",
+          "fiber": "Fiber",
+          "fitness_clothes": "Fitness Clothes",
+          "fresh_air": "Fresh Air",
+          "fresh_remove_wrinkle": "Fresh Remove Wrinkle",
+          "heart_wash": "Heart Wash",
+          "insight_wash": "Insight Wash",
+          "intelligent": "Intelligent",
+          "jacket": "Jacket",
           "jean": "Jean",
+          "kids": "Kids",
+          "love": "Love",
+          "mink": "Mink",
           "mixed_wash": "Mixed Wash",
+          "mixed_wash_min": "Mixed Wash Min",
+          "new_clothes_wash": "New Clothes Wash",
+          "new_water_cotton": "New Water Cotton",
+          "night_fresh_wash": "Night Fresh Wash",
           "outdoor": "Outdoor",
+          "prevent_allergy": "Prevent Allergy",
+          "quick_wash": "Quick Wash",
           "remove_mite_wash": "Mite Removal",
           "rinsing_dehydration": "Rinse+Spin",
+          "self_wash_5": "Self Clean",
+          "self_wash_min": "Self Wash Min",
           "shirt": "Shirt",
+          "silk": "Silk",
+          "silk_wash": "Silk Wash",
           "single_dehytration": "Spin Only",
+          "soft_wash": "Soft Wash",
+          "specialist": "Specialist",
+          "sport_clothes": "Sport Clothes",
+          "spring_autumn_wash": "Spring Autumn Wash",
           "ssp": "Deep Clean",
+          "standard": "Standard",
           "steam_sterilize_wash": "Steam Sterilize Wash",
           "steep": "Steep",
+          "sterilize_wash": "Sterilize Wash",
+          "summer_wash": "Summer Wash",
           "towel": "Towel",
+          "underwear": "Underwear",
+          "water_baby_clothes": "Water Baby Clothes",
+          "water_cold_wash": "Water Cold Wash",
+          "water_eco": "Water Eco",
+          "water_fast_wash_30": "Water Quick Wash 30",
+          "water_fiber": "Water Fiber",
+          "water_intelligent": "Water Intelligent",
+          "water_intense_wash": "Water Intense Wash",
+          "water_kids": "Water Kids",
+          "water_mixed_wash": "Water Mixed Wash",
+          "water_outdoor": "Water Outdoor",
+          "water_prevent_allergy": "Water Prevent Allergy",
+          "water_remove_mite_wash": "Water Mite Removal",
+          "water_shirt": "Water Shirt",
+          "water_ssp": "Water Deep Clean",
+          "water_steep": "Water Steep",
+          "water_underwear": "Water Underwear",
+          "winter_wash": "Winter Wash",
           "wool": "Wool"
         }
       },
@@ -956,19 +1228,36 @@
         "state": {
           "air_wash": "Air Wash",
           "baby_clothes": "Baby Clothes",
+          "bedsheet": "Bedsheet",
           "big_dry": "Big Dry",
+          "bracket_dry": "Bracket Dry",
           "cotton": "Cotton",
+          "dehumidification": "Dehumidification",
+          "dehumidify": "Dehumidify",
           "down_jacket": "Down Jacket",
+          "eco_dry": "Eco Dry",
+          "fiber": "Fiber",
           "fixed_time_dry": "Fixed Time Dry",
           "fresh_air": "Fresh Air",
           "hot_wind_dry": "Hot Wind Dry",
+          "intelligent_dry": "Intelligent Dry",
           "jean": "Jean",
+          "low_temp_dry": "Low Temp Dry",
           "mixed_dry": "Mixed Dry",
+          "night_dry": "Night Dry",
           "outdoor": "Outdoor",
+          "plush": "Plush",
           "quick_dry": "Quick Dry",
           "shirt": "Shirt",
+          "silk": "Silk",
+          "sport_clothes": "Sport Clothes",
+          "standard": "Standard",
+          "steam_care": "Steam Care",
           "sterilize_dry": "Sterilize Dry",
           "towel": "Towel",
+          "underwear": "Underwear",
+          "western_trouser": "Western Trouser",
+          "wool": "Wool",
           "wool_care": "Wool Care"
         }
       },
@@ -1048,6 +1337,16 @@
           "high_temperature": "High Temperature",
           "kitchen": "Kitchen",
           "shower": "Shower"
+        }
+      },
+      "fan_set": {
+        "name": "Fan Speed",
+        "state": {
+          "auto": "Auto",
+          "high": "High",
+          "low": "Low",
+          "medium": "Medium",
+          "off": "Off"
         }
       },
       "fire_power": {
@@ -1322,6 +1621,17 @@
           "stewing": "Stewing",
           "stop": "Stop",
           "warm_porridge": "Warm Porridge"
+        }
+      },
+      "mode_state": {
+        "name": "Mode",
+        "state": {
+          "auto": "Auto",
+          "energy_save": "Energy Saving",
+          "manual": "Manual",
+          "passby": "Passby",
+          "sleep": "Sleep",
+          "ultimate": "Ultimate"
         }
       },
       "moisturizing": {
@@ -1872,6 +2182,14 @@
           "83": "83°C",
           "90": "90°C",
           "95": "95°C"
+        }
+      },
+      "temp_humidity_precision_control": {
+        "name": "Temp & Humidity Precision Control",
+        "state": {
+          "cold_drinks": "Cold Drinks",
+          "fruits_vegetables": "Fruits & Vegetables",
+          "treasures": "Treasures"
         }
       },
       "temperature": {
@@ -2538,6 +2856,21 @@
       "mode": {
         "name": "Running Mode"
       },
+      "mode_set1": {
+        "name": "Mode (Zone 1)"
+      },
+      "mode_set2": {
+        "name": "Mode (Zone 2)"
+      },
+      "mode_set3": {
+        "name": "Mode (Zone 3)"
+      },
+      "mode_set4": {
+        "name": "Mode (Zone 4)"
+      },
+      "mode_set5": {
+        "name": "Mode (Zone 5)"
+      },
       "mouthfeel": {
         "name": "Mouthfeel"
       },
@@ -2594,6 +2927,9 @@
           "weight": "Weight"
         }
       },
+      "purifying_rate": {
+        "name": "Purification Rate"
+      },
       "refrigeration_real_temperature": {
         "name": "Refrigerator Actual Temperature"
       },
@@ -2614,6 +2950,24 @@
       },
       "rice_type": {
         "name": "Rice Type"
+      },
+      "room_aqi_value": {
+        "name": "Room AQI"
+      },
+      "room_temp1": {
+        "name": "Room Temperature (Zone 1)"
+      },
+      "room_temp2": {
+        "name": "Room Temperature (Zone 2)"
+      },
+      "room_temp3": {
+        "name": "Room Temperature (Zone 3)"
+      },
+      "room_temp4": {
+        "name": "Room Temperature (Zone 4)"
+      },
+      "room_temp5": {
+        "name": "Room Temperature (Zone 5)"
       },
       "running_status": {
         "name": "Running Status"
@@ -2662,6 +3016,21 @@
       },
       "temp_set": {
         "name": "Target Temperature"
+      },
+      "temp_set1": {
+        "name": "Target Temperature (Zone 1)"
+      },
+      "temp_set2": {
+        "name": "Target Temperature (Zone 2)"
+      },
+      "temp_set3": {
+        "name": "Target Temperature (Zone 3)"
+      },
+      "temp_set4": {
+        "name": "Target Temperature (Zone 4)"
+      },
+      "temp_set5": {
+        "name": "Target Temperature (Zone 5)"
       },
       "temperature_bottom": {
         "name": "Bottom Temperature"
@@ -2911,6 +3280,21 @@
       "eco_dry_switch": {
         "name": "Eco Dry Switch"
       },
+      "energysaving_state1": {
+        "name": "Energy Saving State (Zone 1)"
+      },
+      "energysaving_state2": {
+        "name": "Energy Saving State (Zone 2)"
+      },
+      "energysaving_state3": {
+        "name": "Energy Saving State (Zone 3)"
+      },
+      "energysaving_state4": {
+        "name": "Energy Saving State (Zone 4)"
+      },
+      "energysaving_state5": {
+        "name": "Energy Saving State (Zone 5)"
+      },
       "eplus": {
         "name": "Large Flow"
       },
@@ -2952,6 +3336,9 @@
       },
       "holiday_mode": {
         "name": "Holiday Mode"
+      },
+      "hosting": {
+        "name": "Hosting"
       },
       "human_sensing_switch": {
         "name": "Motion Screen Wake"
@@ -3006,6 +3393,9 @@
       },
       "move_clean": {
         "name": "Move Clean"
+      },
+      "mute": {
+        "name": "Mute"
       },
       "nightly": {
         "name": "Night Mode"
@@ -3078,6 +3468,21 @@
       },
       "silent_mode": {
         "name": "Silent Mode"
+      },
+      "sleep_state1": {
+        "name": "Sleep State (Zone 1)"
+      },
+      "sleep_state2": {
+        "name": "Sleep State (Zone 2)"
+      },
+      "sleep_state3": {
+        "name": "Sleep State (Zone 3)"
+      },
+      "sleep_state4": {
+        "name": "Sleep State (Zone 4)"
+      },
+      "sleep_state5": {
+        "name": "Sleep State (Zone 5)"
       },
       "smart_sterilize": {
         "name": "Smart Sterilization"
@@ -3222,14 +3627,23 @@
     "error": {
       "all_devices_added": "All discovered devices have already been added",
       "backup_build_failed": "Failed to build the backup archive. Check the Home Assistant logs for details.",
+      "cannot_connect": "Cannot connect to device. Check the IP address and port",
       "diagnostics_build_failed": "Failed to build the diagnostics archive. Check the Home Assistant logs for details.",
+      "invalid_device_id": "Invalid device ID. Enter digits only",
+      "invalid_device_type": "Invalid device type. Enter a hex value (e.g. 0xac)",
+      "invalid_ip": "Invalid IP address",
+      "invalid_protocol": "Invalid protocol version",
+      "lua_error": "Device validation failed",
+      "missing_lua_file": "Lua file path is required",
+      "missing_token_key": "Token and Key are required for V3 protocol",
       "no_account_password": "Please configure account and password first",
       "no_cache_found": "No local configuration files found, no need to clean",
       "no_configurable_devices": "No devices with polling attributes found",
-      "no_devices_found": "No new devices found on local network"
+      "no_devices_found": "No new devices found on local network",
+      "unknown": "Unknown error, check the logs"
     },
     "step": {
-      "add_device": {
+      "add_device_auto": {
         "data": {
           "scan_address": "Scan Address",
           "scan_mode": "Scan Mode"
@@ -3239,7 +3653,19 @@
           "scan_mode": "Note: In broadcast mode, if the device list is repeatedly incomplete, try unicast mode (scanning may take longer in this mode; please wait patiently)."
         },
         "description": "Search for new devices on local network (already added devices will be filtered out)",
-        "title": "Add New Device"
+        "title": "Auto Add New Device"
+      },
+      "add_device_manual": {
+        "data": {
+          "scan_address": "Scan Address",
+          "scan_mode": "Scan Mode"
+        },
+        "data_description": {
+          "scan_address": "Enter router address to scan entire subnet, device IP to scan specific device, or 'auto' for automatic detection",
+          "scan_mode": "Note: In broadcast mode, if the device list is repeatedly incomplete, try unicast mode (scanning may take longer in this mode; please wait patiently)."
+        },
+        "description": "Step 1: scan your local network for device info (no account login, no cloud). Discovered device ID, IP, type and protocol will be prefilled in the next form.",
+        "title": "Manual Add Device - Scan"
       },
       "backup_config": {
         "data": {
@@ -3310,7 +3736,8 @@
       },
       "init": {
         "menu_options": {
-          "add_device": "➕ Add New Device",
+          "add_device_auto": "🔎 Auto Add Device (LAN scan)",
+          "add_device_manual": "✍️ Manual Add Device (no account)",
           "backup_config": "📦 Backup & Download Local Configuration",
           "clear_cache": "🗑️ Clear local configuration files",
           "configure_notifications": "🔔 Configure Device Notifications",
@@ -3322,6 +3749,59 @@
         },
         "title": "Midea Smart Home Options"
       },
+      "manual_device_added_option": {
+        "description": "✅ Device added! {device_count} device(s) in total.\n\nContinue adding more devices manually, or finish.",
+        "menu_options": {
+          "add_device_manual": "➕ Add another device (rescan)",
+          "manual_finish_option": "✅ Finish"
+        },
+        "title": "Manual Add Device"
+      },
+      "manual_device_option": {
+        "data": {
+          "device_id": "Device ID",
+          "ip": "IP Address",
+          "port": "Port",
+          "device_type": "Device Type",
+          "protocol": "Protocol Version",
+          "device_name": "Device Name",
+          "sn": "SN",
+          "sn8": "SN8",
+          "token": "Token",
+          "key": "Key",
+          "lua_file": "Lua File Path"
+        },
+        "data_description": {
+          "device_id": "Device ID (digits only, prefilled)",
+          "ip": "Device LAN IP address (prefilled)",
+          "port": "Default 6444",
+          "device_type": "Hex device type (e.g. 0xac, prefilled)",
+          "protocol": "Protocol version (prefilled). V3 devices require Token and Key",
+          "device_name": "Custom device name (optional)",
+          "sn": "Serial number (optional, prefilled)",
+          "sn8": "Last 8 chars of SN (optional, prefilled)",
+          "token": "Required for V3, leave empty for V1/V2",
+          "key": "Required for V3, leave empty for V1/V2",
+          "lua_file": "Full path to the device protocol file (.lua)"
+        },
+        "description": "Known parameters discovered on the LAN have been prefilled. Verify them and enter the Token/Key and Lua file path.",
+        "title": "Device Info {progress}"
+      },
+      "manual_scan_option": {
+        "description": "Found {device_count} device(s) (already added devices are filtered out).\n\nAdd from the scan results, or enter everything by hand.",
+        "menu_options": {
+          "manual_direct_entry_option": "✍️ Direct entry (device not discoverable)",
+          "manual_select_device_option": "✅ Select a discovered device"
+        },
+        "title": "Manual Add Device"
+      },
+      "manual_select_device_option": {
+        "data": {
+          "devices": "Devices"
+        },
+        "description": "Select the device(s) to add manually. Their device ID, IP, type and protocol will be prefilled in the next form.",
+        "title": "Select Devices"
+      },
       "select_device_continue_option": {
         "data": {
           "devices": "Devices"
@@ -3330,7 +3810,7 @@
         "title": "Select New Devices"
       },
       "select_device_option": {
-        "description": "Found {device_count} new addable devices (including new types). Select an action:",
+        "description": "Select an action:",
         "menu_options": {
           "select_device_continue_option": "✅ Continue with selected devices",
           "select_device_rescan_option": "🔄 Rescan for devices"

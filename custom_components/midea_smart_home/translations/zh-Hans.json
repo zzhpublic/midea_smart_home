@@ -7,12 +7,40 @@
       "no_devices": "没有选择设备"
     },
     "error": {
+      "account_locked": "登录失败次数过多，账号已被临时锁定（约 5 分钟）",
       "all_devices_added": "所有发现的设备都已添加过了",
+      "cannot_connect": "无法连接设备，请检查 IP 地址和端口",
+      "cloud_error": "云端错误，请查看日志或稍后重试",
+      "cloud_session_expired": "登录会话已过期，请重试",
       "connection_failed": "连接设备失败",
+      "invalid_auth": "账号或密码错误",
+      "invalid_cloud_server": "云端 app key 无效",
+      "invalid_device_id": "设备 ID 无效，请输入纯数字 ID",
+      "invalid_device_type": "设备类型无效，请输入十六进制值（如 0xac）",
+      "invalid_ip": "IP 地址无效",
+      "invalid_protocol": "协议版本无效",
       "lua_error": "此设备验证出错，请尝试其他设备",
-      "no_devices_found": "局域网中未发现设备"
+      "missing_lua_file": "请填写 Lua 文件路径",
+      "missing_token_key": "V3 协议需要填写 Token 和 Key",
+      "no_devices_found": "局域网中未发现设备",
+      "too_many_logged_in_devices": "同时登录的设备过多，请先在其他设备退出登录",
+      "unknown": "未知错误，请查看日志"
     },
     "step": {
+      "auto_add_device": {
+        "data": {
+          "account": "账号",
+          "password": "密码",
+          "scan_address": "扫描地址",
+          "scan_mode": "扫描模式"
+        },
+        "data_description": {
+          "scan_address": "[1] 输入路由器地址（如 192.168.1.1）扫描整个网段\n[2] 输入设备 IP 扫描指定设备\n[3] 输入「auto」自动检测（默认）",
+          "scan_mode": "说明：广播模式下，若多次出现搜索出的设备列表显示不全，请尝试使用单播模式 (该模式下扫描时间可能会延长，需耐心等待)。"
+        },
+        "description": "输入美的美居账号密码，下载必要的资源文件",
+        "title": "自动添加设备（账号登录）"
+      },
       "discover": {
         "description": "正在局域网中搜索美的设备...",
         "title": "发现设备"
@@ -31,8 +59,73 @@
         "description": "设备名称: {device_name}\n设备型号: {device_model}\n设备 ID: {device_id}\nIP 地址: {ip_address}\nSN8: {sn8}\n协议版本: {protocol_version}\n{error}{unsupported_protocol}",
         "title": "设备认证 {progress}"
       },
+      "manual_add_device": {
+        "data": {
+          "scan_address": "扫描地址",
+          "scan_mode": "扫描模式"
+        },
+        "data_description": {
+          "scan_address": "[1] 输入路由器地址扫描整个网段\n[2] 输入设备 IP 扫描指定设备\n[3] 输入「auto」自动检测（默认）",
+          "scan_mode": "说明：广播模式下，若多次出现搜索出的设备列表显示不全，请尝试使用单播模式 (该模式下扫描时间可能会延长，需耐心等待)。"
+        },
+        "description": "第一步：扫描局域网获取设备信息（无需登录账号、不依赖云端）。扫描到的设备 ID、IP、类型、协议等信息将自动填入后续表单。",
+        "title": "手动添加设备 - 扫描"
+      },
+      "manual_device": {
+        "data": {
+          "device_id": "设备 ID",
+          "ip": "IP 地址",
+          "port": "端口",
+          "device_type": "设备类型",
+          "protocol": "协议版本",
+          "device_name": "设备名称",
+          "sn": "SN 序列号",
+          "sn8": "SN8",
+          "token": "Token",
+          "key": "Key",
+          "lua_file": "Lua 文件路径"
+        },
+        "data_description": {
+          "device_id": "设备 ID（纯数字，已自动填充）",
+          "ip": "设备局域网 IP 地址（已自动填充）",
+          "port": "默认 6444",
+          "device_type": "十六进制设备类型（如 0xac，已自动填充）",
+          "protocol": "协议版本（已自动填充），V3 设备需要填写 Token 和 Key",
+          "device_name": "自定义设备名称（可选）",
+          "sn": "序列号（可选，已自动填充）",
+          "sn8": "SN 后 8 位（可选，已自动填充）",
+          "token": "V3 协议必填，V1/V2 可留空",
+          "key": "V3 协议必填，V1/V2 可留空",
+          "lua_file": "设备协议文件（.lua）的完整路径"
+        },
+        "description": "已自动填入扫描到的已知参数，请核对并补填 Token/Key 与 Lua 文件路径。",
+        "title": "设备信息 {progress}"
+      },
+      "manual_device_added": {
+        "description": "✅ 设备添加成功！当前共 {device_count} 台设备。\n\n可选择继续手动添加，或完成配置。",
+        "menu_options": {
+          "manual_add_device": "➕ 继续添加其他设备（重新扫描）",
+          "manual_finish": "✅ 完成"
+        },
+        "title": "手动添加设备"
+      },
+      "manual_scan": {
+        "description": "扫描到 {device_count} 台设备（已添加的设备已自动过滤）。\n\n可选择从扫描结果中添加，或直接手动填写。",
+        "menu_options": {
+          "manual_direct_entry": "✍️ 直接手动填写（设备无法扫描到时）",
+          "manual_select_device": "✅ 选择扫描到的设备"
+        },
+        "title": "手动添加设备"
+      },
+      "manual_select_device": {
+        "data": {
+          "devices": "设备"
+        },
+        "description": "选择要手动添加的设备，选中后其设备 ID、IP、类型、协议等信息将自动填入后续表单。",
+        "title": "选择设备"
+      },
       "select_device": {
-        "description": "已发现 {device_count} 台可被添加的新设备（含新类型），请选择操作：",
+        "description": "请选择操作：",
         "menu_options": {
           "select_device_continue": "✅ 前往添加设备",
           "select_device_rescan": "🔄 重新扫描（尝试搜索更多设备）"
@@ -47,17 +140,11 @@
         "title": "选择设备"
       },
       "user": {
-        "data": {
-          "account": "账号",
-          "password": "密码",
-          "scan_address": "扫描地址",
-          "scan_mode": "扫描模式"
+        "description": "请选择添加设备的方式：",
+        "menu_options": {
+          "auto_add_device": "🔎 自动添加设备（登录账号，扫描局域网）",
+          "manual_add_device": "✍️ 手动添加设备（无需账号，手动输入 Token/Key 及 Lua 文件）"
         },
-        "data_description": {
-          "scan_address": "[1] 输入路由器地址（如 192.168.1.1）扫描整个网段\n[2] 输入设备 IP 扫描指定设备\n[3] 输入「auto」自动检测（默认）",
-          "scan_mode": "说明：广播模式下，若多次出现搜索出的设备列表显示不全，请尝试使用单播模式 (该模式下扫描时间可能会延长，需耐心等待)。"
-        },
-        "description": "输入美的美居账号密码，下载必要的资源文件",
         "title": "Midea Smart Home 设置"
       }
     }
@@ -347,7 +434,10 @@
         "state_attributes": {
           "fan_mode": {
             "state": {
+              "silent": "静音",
               "soft_wind": "弱风",
+              "standard": "标准",
+              "storm": "暴风",
               "strong": "强风"
             }
           },
@@ -402,6 +492,121 @@
       },
       "storage_zone": {
         "name": "温控器(冷藏)"
+      },
+      "thermostat_1": {
+        "name": "温控器(子设备1)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "自动",
+              "high": "高速",
+              "low": "低速",
+              "medium": "中速"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "制冷",
+              "fan_only": "送风",
+              "ground": "地暖",
+              "heat": "制热",
+              "heat_ground": "制热+地暖",
+              "none": "无"
+            }
+          }
+        }
+      },
+      "thermostat_2": {
+        "name": "温控器(子设备2)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "自动",
+              "high": "高速",
+              "low": "低速",
+              "medium": "中速"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "制冷",
+              "fan_only": "送风",
+              "ground": "地暖",
+              "heat": "制热",
+              "heat_ground": "制热+地暖",
+              "none": "无"
+            }
+          }
+        }
+      },
+      "thermostat_3": {
+        "name": "温控器(子设备3)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "自动",
+              "high": "高速",
+              "low": "低速",
+              "medium": "中速"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "制冷",
+              "fan_only": "送风",
+              "ground": "地暖",
+              "heat": "制热",
+              "heat_ground": "制热+地暖",
+              "none": "无"
+            }
+          }
+        }
+      },
+      "thermostat_4": {
+        "name": "温控器(子设备4)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "自动",
+              "high": "高速",
+              "low": "低速",
+              "medium": "中速"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "制冷",
+              "fan_only": "送风",
+              "ground": "地暖",
+              "heat": "制热",
+              "heat_ground": "制热+地暖",
+              "none": "无"
+            }
+          }
+        }
+      },
+      "thermostat_5": {
+        "name": "温控器(子设备5)",
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "自动",
+              "high": "高速",
+              "low": "低速",
+              "medium": "中速"
+            }
+          },
+          "preset_mode": {
+            "state": {
+              "cool": "制冷",
+              "fan_only": "送风",
+              "ground": "地暖",
+              "heat": "制热",
+              "heat_ground": "制热+地暖",
+              "none": "无"
+            }
+          }
+        }
       }
     },
     "cover": {
@@ -410,6 +615,20 @@
       }
     },
     "fan": {
+      "air_purifier": {
+        "name": "空气净化器",
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "air_dry": "风芯",
+              "auto": "托管",
+              "fast": "快速",
+              "manual": "手动",
+              "sleep": "睡眠"
+            }
+          }
+        }
+      },
       "exhaust_fan": {
         "name": "排风风机"
       },
@@ -901,25 +1120,78 @@
       "db_program_b": {
         "name": "洗涤程序(下筒)",
         "state": {
+          "air_wash": "空气洗",
           "baby_clothes": "婴儿服",
+          "baby_clothes_min": "婴服定时",
           "big": "大件",
+          "cold_wash": "冷水洗",
+          "color": "护色",
+          "cook_wash": "高温煮洗",
           "cotton": "棉麻",
+          "dehydration_min": "脱水定时",
           "down_jacket": "羽绒服",
           "eco": "节能",
           "enzyme": "加酶",
           "fast_wash": "快洗",
           "fast_wash_30": "快洗30",
+          "fast_wash_min": "快洗定时",
+          "fiber": "纤维",
+          "fitness_clothes": "健身服",
+          "fresh_air": "清新空气",
+          "fresh_remove_wrinkle": "清新除皱",
+          "heart_wash": "爱心洗",
+          "insight_wash": "洞见洗",
+          "intelligent": "智能",
+          "jacket": "夹克",
           "jean": "牛仔",
+          "kids": "童装",
+          "love": "爱心",
+          "mink": "貂绒",
           "mixed_wash": "混合洗",
+          "mixed_wash_min": "混合洗定时",
+          "new_clothes_wash": "新衣洗",
+          "new_water_cotton": "新水流棉麻",
+          "night_fresh_wash": "夜间清新洗",
           "outdoor": "户外",
+          "prevent_allergy": "防过敏",
+          "quick_wash": "快洗",
           "remove_mite_wash": "除螨",
           "rinsing_dehydration": "漂脱",
+          "self_wash_5": "筒自洁",
+          "self_wash_min": "筒自洁定时",
           "shirt": "衬衫",
+          "silk": "真丝",
+          "silk_wash": "真丝洗",
           "single_dehytration": "单脱水",
+          "soft_wash": "柔洗",
+          "specialist": "专洗",
+          "sport_clothes": "运动服",
+          "spring_autumn_wash": "春秋洗",
           "ssp": "深度洁筒",
+          "standard": "标准",
           "steam_sterilize_wash": "蒸汽除菌洗",
           "steep": "浸泡洗",
+          "sterilize_wash": "除菌洗",
+          "summer_wash": "夏季洗",
           "towel": "毛巾",
+          "underwear": "内衣",
+          "water_baby_clothes": "水洗婴服",
+          "water_cold_wash": "水洗冷水",
+          "water_eco": "水洗节能",
+          "water_fast_wash_30": "水洗快洗30",
+          "water_fiber": "水洗纤维",
+          "water_intelligent": "水洗智能",
+          "water_intense_wash": "水洗强力",
+          "water_kids": "水洗童装",
+          "water_mixed_wash": "水洗混合",
+          "water_outdoor": "水洗户外",
+          "water_prevent_allergy": "水洗防过敏",
+          "water_remove_mite_wash": "水洗除螨",
+          "water_shirt": "水洗衬衫",
+          "water_ssp": "水洗深度洁筒",
+          "water_steep": "水洗浸泡",
+          "water_underwear": "水洗内衣",
+          "winter_wash": "冬季洗",
           "wool": "羊毛"
         }
       },
@@ -956,19 +1228,36 @@
         "state": {
           "air_wash": "空气洗",
           "baby_clothes": "婴儿服",
+          "bedsheet": "床单",
           "big_dry": "大件烘",
+          "bracket_dry": "衣架烘",
           "cotton": "棉麻",
+          "dehumidification": "除湿模式",
+          "dehumidify": "除湿",
           "down_jacket": "羽绒服",
+          "eco_dry": "节能烘",
+          "fiber": "纤维",
           "fixed_time_dry": "定时烘",
           "fresh_air": "清新空气",
           "hot_wind_dry": "热风烘干",
+          "intelligent_dry": "智能烘",
           "jean": "牛仔",
+          "low_temp_dry": "低温烘",
           "mixed_dry": "混合烘",
+          "night_dry": "夜间烘",
           "outdoor": "户外",
+          "plush": "毛绒",
           "quick_dry": "快烘",
           "shirt": "衬衫",
+          "silk": "真丝",
+          "sport_clothes": "运动服",
+          "standard": "标准",
+          "steam_care": "蒸汽护理",
           "sterilize_dry": "除菌烘",
           "towel": "毛巾",
+          "underwear": "内衣",
+          "western_trouser": "西裤",
+          "wool": "羊毛",
           "wool_care": "羊毛护理"
         }
       },
@@ -1048,6 +1337,16 @@
           "high_temperature": "高温洗",
           "kitchen": "厨房洗",
           "shower": "淋浴洗"
+        }
+      },
+      "fan_set": {
+        "name": "风速",
+        "state": {
+          "auto": "自动",
+          "high": "高速",
+          "low": "低速",
+          "medium": "中速",
+          "off": "关闭"
         }
       },
       "fire_power": {
@@ -1322,6 +1621,17 @@
           "stewing": "蒸煮",
           "stop": "停止",
           "warm_porridge": "适温粥"
+        }
+      },
+      "mode_state": {
+        "name": "模式",
+        "state": {
+          "auto": "自动",
+          "energy_save": "节能",
+          "manual": "手动",
+          "passby": "旁通",
+          "sleep": "睡眠",
+          "ultimate": "强劲"
         }
       },
       "moisturizing": {
@@ -1872,6 +2182,14 @@
           "83": "83°C",
           "90": "90°C",
           "95": "95°C"
+        }
+      },
+      "temp_humidity_precision_control": {
+        "name": "温湿精控",
+        "state": {
+          "cold_drinks": "冰饮",
+          "fruits_vegetables": "果蔬",
+          "treasures": "珍品"
         }
       },
       "temperature": {
@@ -2538,6 +2856,21 @@
       "mode": {
         "name": "运行模式"
       },
+      "mode_set1": {
+        "name": "模式(子设备1)"
+      },
+      "mode_set2": {
+        "name": "模式(子设备2)"
+      },
+      "mode_set3": {
+        "name": "模式(子设备3)"
+      },
+      "mode_set4": {
+        "name": "模式(子设备4)"
+      },
+      "mode_set5": {
+        "name": "模式(子设备5)"
+      },
       "mouthfeel": {
         "name": "口感"
       },
@@ -2594,6 +2927,9 @@
           "weight": "称重中"
         }
       },
+      "purifying_rate": {
+        "name": "净化率"
+      },
       "refrigeration_real_temperature": {
         "name": "冷藏实际温度"
       },
@@ -2614,6 +2950,24 @@
       },
       "rice_type": {
         "name": "米种类"
+      },
+      "room_aqi_value": {
+        "name": "空气质量指数"
+      },
+      "room_temp1": {
+        "name": "室温(子设备1)"
+      },
+      "room_temp2": {
+        "name": "室温(子设备2)"
+      },
+      "room_temp3": {
+        "name": "室温(子设备3)"
+      },
+      "room_temp4": {
+        "name": "室温(子设备4)"
+      },
+      "room_temp5": {
+        "name": "室温(子设备5)"
       },
       "running_status": {
         "name": "运行状态"
@@ -2662,6 +3016,21 @@
       },
       "temp_set": {
         "name": "目标温度"
+      },
+      "temp_set1": {
+        "name": "目标温度(子设备1)"
+      },
+      "temp_set2": {
+        "name": "目标温度(子设备2)"
+      },
+      "temp_set3": {
+        "name": "目标温度(子设备3)"
+      },
+      "temp_set4": {
+        "name": "目标温度(子设备4)"
+      },
+      "temp_set5": {
+        "name": "目标温度(子设备5)"
       },
       "temperature_bottom": {
         "name": "底部温度"
@@ -2911,6 +3280,21 @@
       "eco_dry_switch": {
         "name": "节能干燥开关"
       },
+      "energysaving_state1": {
+        "name": "节能状态(子设备1)"
+      },
+      "energysaving_state2": {
+        "name": "节能状态(子设备2)"
+      },
+      "energysaving_state3": {
+        "name": "节能状态(子设备3)"
+      },
+      "energysaving_state4": {
+        "name": "节能状态(子设备4)"
+      },
+      "energysaving_state5": {
+        "name": "节能状态(子设备5)"
+      },
       "eplus": {
         "name": "大水量"
       },
@@ -2952,6 +3336,9 @@
       },
       "holiday_mode": {
         "name": "假日模式"
+      },
+      "hosting": {
+        "name": "智能托管"
       },
       "human_sensing_switch": {
         "name": "感应亮屏"
@@ -3006,6 +3393,9 @@
       },
       "move_clean": {
         "name": "移动清洗"
+      },
+      "mute": {
+        "name": "静音"
       },
       "nightly": {
         "name": "夜间模式"
@@ -3078,6 +3468,21 @@
       },
       "silent_mode": {
         "name": "超智能降噪"
+      },
+      "sleep_state1": {
+        "name": "睡眠状态(子设备1)"
+      },
+      "sleep_state2": {
+        "name": "睡眠状态(子设备2)"
+      },
+      "sleep_state3": {
+        "name": "睡眠状态(子设备3)"
+      },
+      "sleep_state4": {
+        "name": "睡眠状态(子设备4)"
+      },
+      "sleep_state5": {
+        "name": "睡眠状态(子设备5)"
       },
       "smart_sterilize": {
         "name": "智能杀菌"
@@ -3222,14 +3627,23 @@
     "error": {
       "all_devices_added": "所有发现的设备都已添加过了",
       "backup_build_failed": "生成备份压缩包失败，请查看 Home Assistant 日志。",
+      "cannot_connect": "无法连接设备，请检查 IP 地址和端口",
       "diagnostics_build_failed": "生成诊断压缩包失败，请查看 Home Assistant 日志。",
+      "invalid_device_id": "设备 ID 无效，请输入纯数字 ID",
+      "invalid_device_type": "设备类型无效，请输入十六进制值（如 0xac）",
+      "invalid_ip": "IP 地址无效",
+      "invalid_protocol": "协议版本无效",
+      "lua_error": "此设备验证出错，请尝试其他设备",
+      "missing_lua_file": "请填写 Lua 文件路径",
+      "missing_token_key": "V3 协议需要填写 Token 和 Key",
       "no_account_password": "请先配置账号密码",
       "no_cache_found": "未发现本地配置文件，无需清理",
       "no_configurable_devices": "没有找到需要轮询的设备",
-      "no_devices_found": "局域网中未发现新设备"
+      "no_devices_found": "局域网中未发现新设备",
+      "unknown": "未知错误，请查看日志"
     },
     "step": {
-      "add_device": {
+      "add_device_auto": {
         "data": {
           "scan_address": "扫描地址",
           "scan_mode": "扫描模式"
@@ -3239,7 +3653,19 @@
           "scan_mode": "说明：广播模式下，若多次出现搜索出的设备列表显示不全，请尝试使用单播模式 (该模式下扫描时间可能会延长，需耐心等待)。"
         },
         "description": "搜索局域网中的新设备（已添加的设备将自动过滤）",
-        "title": "添加新设备"
+        "title": "自动添加新设备"
+      },
+      "add_device_manual": {
+        "data": {
+          "scan_address": "扫描地址",
+          "scan_mode": "扫描模式"
+        },
+        "data_description": {
+          "scan_address": "[1] 输入路由器地址扫描整个网段\n[2] 输入设备 IP 扫描指定设备\n[3] 输入「auto」自动检测（默认）",
+          "scan_mode": "说明：广播模式下，若多次出现搜索出的设备列表显示不全，请尝试使用单播模式 (该模式下扫描时间可能会延长，需耐心等待)。"
+        },
+        "description": "第一步：扫描局域网获取设备信息（无需登录账号、不依赖云端）。扫描到的设备 ID、IP、类型、协议等信息将自动填入后续表单。",
+        "title": "手动添加设备 - 扫描"
       },
       "backup_config": {
         "data": {
@@ -3310,7 +3736,8 @@
       },
       "init": {
         "menu_options": {
-          "add_device": "➕ 继续添加其他设备",
+          "add_device_auto": "🔎 自动添加设备（扫描局域网）",
+          "add_device_manual": "✍️ 手动添加设备（无需账号）",
           "backup_config": "📦 备份本地配置文件",
           "clear_cache": "🗑️ 清理本地配置文件",
           "configure_notifications": "🔔 配置设备上下线通知",
@@ -3322,6 +3749,59 @@
         },
         "title": "Midea Smart Home 选项"
       },
+      "manual_device_added_option": {
+        "description": "✅ 设备添加成功！当前共 {device_count} 台设备。\n\n可选择继续手动添加，或完成配置。",
+        "menu_options": {
+          "add_device_manual": "➕ 继续添加其他设备（重新扫描）",
+          "manual_finish_option": "✅ 完成"
+        },
+        "title": "手动添加设备"
+      },
+      "manual_device_option": {
+        "data": {
+          "device_id": "设备 ID",
+          "ip": "IP 地址",
+          "port": "端口",
+          "device_type": "设备类型",
+          "protocol": "协议版本",
+          "device_name": "设备名称",
+          "sn": "SN 序列号",
+          "sn8": "SN8",
+          "token": "Token",
+          "key": "Key",
+          "lua_file": "Lua 文件路径"
+        },
+        "data_description": {
+          "device_id": "设备 ID（纯数字，已自动填充）",
+          "ip": "设备局域网 IP 地址（已自动填充）",
+          "port": "默认 6444",
+          "device_type": "十六进制设备类型（如 0xac，已自动填充）",
+          "protocol": "协议版本（已自动填充），V3 设备需要填写 Token 和 Key",
+          "device_name": "自定义设备名称（可选）",
+          "sn": "序列号（可选，已自动填充）",
+          "sn8": "SN 后 8 位（可选，已自动填充）",
+          "token": "V3 协议必填，V1/V2 可留空",
+          "key": "V3 协议必填，V1/V2 可留空",
+          "lua_file": "设备协议文件（.lua）的完整路径"
+        },
+        "description": "已自动填入扫描到的已知参数，请核对并补填 Token/Key 与 Lua 文件路径。",
+        "title": "设备信息 {progress}"
+      },
+      "manual_scan_option": {
+        "description": "扫描到 {device_count} 台设备（已添加的设备已自动过滤）。\n\n可选择从扫描结果中添加，或直接手动填写。",
+        "menu_options": {
+          "manual_direct_entry_option": "✍️ 直接手动填写（设备无法扫描到时）",
+          "manual_select_device_option": "✅ 选择扫描到的设备"
+        },
+        "title": "手动添加设备"
+      },
+      "manual_select_device_option": {
+        "data": {
+          "devices": "设备"
+        },
+        "description": "选择要手动添加的设备，选中后其设备 ID、IP、类型、协议等信息将自动填入后续表单。",
+        "title": "选择设备"
+      },
       "select_device_continue_option": {
         "data": {
           "devices": "设备"
@@ -3330,7 +3810,7 @@
         "title": "选择新设备"
       },
       "select_device_option": {
-        "description": "已发现 {device_count} 台可被添加的新设备（含新类型），请选择操作：",
+        "description": "请选择操作：",
         "menu_options": {
           "select_device_continue_option": "✅ 前往添加设备",
           "select_device_rescan_option": "🔄 重新扫描"

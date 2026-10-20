@@ -33,6 +33,10 @@ CONF_PROTOCOL = "protocol"
 CONF_CATEGORY = "category"
 CONF_UPDATE_CHECK_INTERVAL = "update_check_interval"
 
+# Setup mode: "auto" (account login + LAN discovery) or "manual" (no cloud)
+SETUP_MODE_AUTO = "auto"
+SETUP_MODE_MANUAL = "manual"
+
 DEFAULT_PORT = 6444
 
 UPDATE_CHECK_OFF = "off"
@@ -50,6 +54,7 @@ DEVICE_TYPES = {
     0x13: "Smart Light / Fan Light",
     0x17: "Laundry Machine",
     0x26: "Bath Heater",
+    0x40: "Cooling Fan",
     0x9B: "Steam Oven",
     0x9C: "Integrated Stove",
     0xA1: "Dehumidifier",
@@ -63,6 +68,9 @@ DEVICE_TYPES = {
     0xC2: "Smart Toilet",
     0xCA: "Multi-Door Fridge",
     0xCC: "WiFi Remote Control Device (Central Air Conditioner)",
+    0xCD: "Air Source Heat Pump Water Heater",
+    0xCE: "Fresh Air Appliance",
+    0xCF: "Multi-zone Heating Controller",
     0xD9: "Twin Tub Washing Machine (Left & Right / Top & Bottom)",
     0xDA: "Top Load Washing Machine",
     0xDB: "Cylinder Washing Machine",
