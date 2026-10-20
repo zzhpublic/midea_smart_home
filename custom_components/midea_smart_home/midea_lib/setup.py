@@ -1,6 +1,7 @@
 """Midea device setup and validation helpers."""
 import logging
 import socket
+import time
 from typing import Optional, Tuple
 
 from .device import DeviceController
@@ -38,15 +39,20 @@ async def validate_device(
         if result != 0:
             return False, "cannot_connect"
     except Exception as e:
-        _LOGGER.error("Socket connect error: %s", e)
+        _LOGGER.error("[setup] socket connect failed: ip=%s port=%s error=%s", ip_address, port, e)
         return False, "cannot_connect"
 
     # 2. Test authentication and protocol
     try:
         from ..const import LUA_COMMON_PATH
         from pathlib import Path
+        from ..device_mapping import get_device_mapping
 
         lua_common_dir = Path(hass.config.config_dir) / LUA_COMMON_PATH
+
+        # Init controls (e.g. lock off) used as a fallback to fetch full
+        # status when the initial status query returns no data
+        initial_control = get_device_mapping(device_type, "", sn8, "").get("initial_control")
 
         def _test_connection():
             codec = MideaCodec(lua_file, str(lua_common_dir), sn=sn, subtype=0, device_type=device_type, sn8=sn8)
@@ -60,7 +66,6 @@ async def validate_device(
                 protocol=protocol,
             )
 
-            import time
             got_status = False
 
             def status_callback(status, poll_location=None):
@@ -95,6 +100,17 @@ async def validate_device(
                 while not got_status and (time.time() - start < 5):
                     time.sleep(0.5)
 
+                # Fallback: if the init query returned no data, send init
+                # controls (e.g. lock off) to fetch full status
+                if not got_status and initial_control:
+                    for control in initial_control:
+                        if isinstance(control, dict) and control:
+                            controller.send_control(control, current_status={})
+                            time.sleep(0.3)
+                    start = time.time()
+                    while not got_status and (time.time() - start < 5):
+                        time.sleep(0.5)
+
                 if not got_status:
                     return False, "lua_error"
 
@@ -102,10 +118,15 @@ async def validate_device(
             finally:
                 controller.close()
                 if controller.is_alive():
-                    controller.join(timeout=2.0)
+                    controller.join(timeout=3.0)
+                    if controller.is_alive():
+                        _LOGGER.warning(
+                            "[setup] controller thread did not stop within 3s: device_id=%s",
+                            device_id,
+                        )
 
         return await hass.async_add_executor_job(_test_connection)
 
     except Exception as e:
-        _LOGGER.error("Validation error: %s", e)
+        _LOGGER.error("[setup] device validation failed: device_id=%s error=%s", device_id, e)
         return False, "unknown"
